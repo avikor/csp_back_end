@@ -7,6 +7,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cspBackEnd", "cspBackEnd\cs
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "csp", "csp\csp.vcxproj", "{828F6476-7CFD-4720-AE86-511416AFB86F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FFA6D23E-21F6-43AF-9174-9C4AD7447F7D}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE. = LICENSE.
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
