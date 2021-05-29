@@ -22,11 +22,11 @@ const char* ALGORITHMS =
 void pythagorean_triples_handler(const std::shared_ptr< restbed::Session > session)
 {
     const auto& request = session->get_request();
-    std::string strN = request->get_path_parameter("n");
-    int n = stoi(strN);
+    std::string upperBound = request->get_path_parameter("upperBound");
+    int n = stoi(upperBound);
     std::string algo = request->get_path_parameter("algo");
 
-    std::clog << "pythagorean triples got n: " << strN << '\n';
+    std::clog << "pythagorean triples got upperBound: " << upperBound << '\n';
     std::clog << "pythagorean triples got algo: " << algo << '\n';
 
     std::string res = "";
@@ -38,7 +38,7 @@ void pythagorean_triples_handler(const std::shared_ptr< restbed::Session > sessi
     }
     else
     {
-        json solutions = get_pythagorean_triples_solutions(strN);
+        json solutions = get_pythagorean_triples_solutions(upperBound);
         g_pythSolutions[n] = solutions;
         res = solutions.dump();
     }
@@ -49,26 +49,24 @@ void pythagorean_triples_handler(const std::shared_ptr< restbed::Session > sessi
 void magic_square_handler(const std::shared_ptr< restbed::Session > session)
 {
     const auto& request = session->get_request();
-    std::string strNSquared = request->get_path_parameter("n");
-    int nSquared = stoi(strNSquared);
-    int n = static_cast<int>(std::sqrt(nSquared));
+    std::string strMagicSquareSize = request->get_path_parameter("magicSquareSize");
+    int magicSquareSize = std::stoi(strMagicSquareSize);
     std::string algo = request->get_path_parameter("algo");
 
-    std::clog << "magic squares got n squared: " << strNSquared << '\n';
-    std::clog << "magic squares got n: " << n << '\n';
+    std::clog << "magic squares got magicSquareSize: " << strMagicSquareSize << '\n';
     std::clog << "magic squares got algo: " << algo << '\n';
 
     std::string res = "";
 
-    if (g_magicSquareSolutions.count(nSquared))
+    if (g_magicSquareSolutions.count(magicSquareSize))
     {
         std::clog << "magic squares sends cached solution\n";
-        res = g_magicSquareSolutions[nSquared].dump();
+        res = g_magicSquareSolutions[magicSquareSize].dump();
     }
     else
     {
-        json solutions = get_magic_squares_solutions(n, strNSquared);
-        g_magicSquareSolutions[nSquared] = solutions;
+        json solutions = get_magic_squares_solutions(magicSquareSize, strMagicSquareSize);
+        g_magicSquareSolutions[magicSquareSize] = solutions;
         res = solutions.dump();
     }
 
@@ -78,10 +76,10 @@ void magic_square_handler(const std::shared_ptr< restbed::Session > session)
 void n_queens_handler(const std::shared_ptr< restbed::Session > session)
 {
     const auto& request = session->get_request();
-    std::string strN = request->get_path_parameter("n");
-    int n = stoi(strN);
+    std::string strNQueensSize = request->get_path_parameter("nQueensSize");
+    int n = stoi(strNQueensSize);
     std::string algo = request->get_path_parameter("algo");
-    std::clog << "n queens got n: " << strN << '\n';
+    std::clog << "n queens got n: " << strNQueensSize << '\n';
     std::clog << "n queens got algo: " << algo << '\n';
 
     std::string res = "";
@@ -93,7 +91,7 @@ void n_queens_handler(const std::shared_ptr< restbed::Session > session)
     }
     else
     {
-        json solutions = get_n_queens_solutions(strN);
+        json solutions = get_n_queens_solutions(strNQueensSize);
         g_nQueensSolutions[n] = solutions;
         res = solutions.dump();
     }
@@ -104,19 +102,19 @@ void n_queens_handler(const std::shared_ptr< restbed::Session > session)
 int main(const int argc, const char** argv)
 {
     auto pythResource = std::make_shared< restbed::Resource >();
-    std::string pythPath = "/resources/pythagorianSolutions/{n: [1-9][0-9]*}/";
+    std::string pythPath = "/resources/pythagorianSolutions/{upperBound: [1-9][0-9]*}/";
     pythPath += ALGORITHMS;
     pythResource->set_path(pythPath);
     pythResource->set_method_handler("GET", pythagorean_triples_handler);
 
     auto magicSquareResource = std::make_shared< restbed::Resource >();
-    std::string magicSquarePath = "/resources/magicSquareSolutions/{n: [1-9][0-9]*}/";
+    std::string magicSquarePath = "/resources/magicSquareSolutions/{magicSquareSize: [1-9][0-9]*}/";
     magicSquarePath += ALGORITHMS;
     magicSquareResource->set_path(magicSquarePath);
     magicSquareResource->set_method_handler("GET", magic_square_handler);
 
     auto nQueensResource = std::make_shared< restbed::Resource >();
-    std::string nQueensPath = "/resources/nQueensSolutions/{n: [1-9][0-9]*}/";
+    std::string nQueensPath = "/resources/nQueensSolutions/{nQueensSize: [1-9][0-9]*}/";
     nQueensPath += ALGORITHMS;
     nQueensResource->set_path(nQueensPath);
     nQueensResource->set_method_handler("GET", n_queens_handler);
