@@ -14,4 +14,4 @@ under "Building restbed - Using vcpkg".</br>
 further installation is required.
 
 ## Usage
-Compile cspBackEnd.sln using Visual Studio, then execute cspBackEnd.exe
+Compile cspBackEnd.sln using Visual Studio, then run cspBackEnd.exe
